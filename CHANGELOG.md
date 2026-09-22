@@ -1,4 +1,8 @@
 # Change Log
+## 0.1.3
+
+- Added GitHub Actions workflow to auto-publish to the Marketplace on version bumps.
+
 ## 0.1.2
 
 - Added Repo to Manifest

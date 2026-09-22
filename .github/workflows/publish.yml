@@ -1,0 +1,75 @@
+name: Publish Extension
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # needed to inspect existing tags
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check if version changed
+        id: version
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          LAST_TAG=$(git tag -l "v*" --sort=-v:refname | head -n 1)
+          echo "package.json version: $PKG_VERSION"
+          echo "last tag: ${LAST_TAG:-none}"
+          if [ "v$PKG_VERSION" = "$LAST_TAG" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Lint
+        if: steps.version.outputs.changed == 'true'
+        run: npm run lint
+
+      - name: Run tests
+        if: steps.version.outputs.changed == 'true'
+        run: npm test
+
+      - name: Publish to VS Code Marketplace
+        if: steps.version.outputs.changed == 'true'
+        run: npx vsce publish --allow-missing-repository --no-git-tag-version
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Create git tag
+        if: steps.version.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin "v${{ steps.version.outputs.version }}"
+
+      - name: Package VSIX
+        if: steps.version.outputs.changed == 'true'
+        run: npm run package
+
+      - name: Create GitHub Release
+        if: steps.version.outputs.changed == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: "*.vsix"
+          generate_release_notes: true
