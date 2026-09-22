@@ -16,12 +16,23 @@
 	],
 	"keywords": [
 		"kimi",
+		"kimi-k3",
+		"kimi-k2",
 		"moonshot",
 		"moonshot-ai",
 		"copilot",
+		"copilot-chat",
 		"language-model",
+		"language-models",
+		"llm",
+		"ai",
 		"chat-provider",
-		"byok"
+		"model-provider",
+		"byok",
+		"agent",
+		"tool-calling",
+		"vision",
+		"multimodal"
 	],
 	"activationEvents": [
 		"onStartupFinished"
