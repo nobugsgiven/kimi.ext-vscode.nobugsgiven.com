@@ -1,0 +1,97 @@
+{
+	"name": "kimi-moonshot-copilot-provider",
+	"displayName": "Kimi K3 (Moonshot API) - No Bugs Given",
+	"description": "Use Moonshot AI's Kimi models (Kimi K3, K2.6, K2.5) directly inside VS Code Copilot Chat via your own Moonshot API key.",
+	"version": "0.1.0",
+	"publisher": "no-bugs-given",
+	"license": "MIT",
+	"private": true,
+	"engines": {
+		"vscode": "^1.104.0"
+	},
+	"categories": [
+		"AI",
+		"Chat",
+		"Machine Learning"
+	],
+	"keywords": [
+		"kimi",
+		"moonshot",
+		"moonshot-ai",
+		"copilot",
+		"language-model",
+		"chat-provider",
+		"byok"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"languageModelChatProviders": [
+			{
+				"vendor": "nobugsgiven-kimi",
+				"displayName": "Kimi K3 (Moonshot API) - No Bugs Given",
+				"managementCommand": "nobugsgivenKimi.manageApiKey"
+			}
+		],
+		"commands": [
+			{
+				"command": "nobugsgivenKimi.setApiKey",
+				"title": "Set API Key",
+				"category": "Kimi"
+			},
+			{
+				"command": "nobugsgivenKimi.resetApiKey",
+				"title": "Reset API Key",
+				"category": "Kimi"
+			},
+			{
+				"command": "nobugsgivenKimi.manageApiKey",
+				"title": "Manage API Key",
+				"category": "Kimi"
+			},
+			{
+				"command": "nobugsgivenKimi.testApiConnection",
+				"title": "Test API Connection",
+				"category": "Kimi"
+			}
+		],
+		"configuration": {
+			"title": "Kimi (No Bugs Given)",
+			"properties": {
+				"kimi.apiBaseUrl": {
+					"type": "string",
+					"default": "https://api.moonshot.ai/v1",
+					"markdownDescription": "Base URL of the Moonshot (Kimi) API. Advanced setting for development/testing or Moonshot-compatible gateways. Contains **no credentials** — the API key is always stored in VS Code Secret Storage.",
+					"scope": "application"
+				},
+				"kimi.diagnostics": {
+					"type": "boolean",
+					"default": false,
+					"markdownDescription": "Write verbose request/response diagnostics (sanitized — never the API key) to the **Kimi - No Bugs Given** output channel.",
+					"scope": "application"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"lint": "eslint src test --ext ts",
+		"pretest": "npm run compile",
+		"test": "vitest run",
+		"test:integration": "KIMI_INTEGRATION=1 vitest run",
+		"package": "vsce package --allow-missing-repository --no-git-tag-version"
+	},
+	"devDependencies": {
+		"@types/node": "^24.3.1",
+		"@types/vscode": "^1.104.0",
+		"@vscode/vsce": "^3.6.2",
+		"eslint": "^9.35.0",
+		"typescript": "^5.9.2",
+		"typescript-eslint": "^8.43.0",
+		"vitest": "^3.2.4"
+	}
+}
