@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.1.1
+
+- Added extension icon and Marketplace gallery banner.
+- Expanded Marketplace keywords (`language-models`, `llm`, `copilot-chat`, etc.).
+- Publisher ID aligned with Marketplace publisher `NoBugsGiven`.
+
 ## 0.1.0
 
 Initial release.
