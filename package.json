@@ -2,7 +2,7 @@
 	"name": "kimi-moonshot-copilot-provider",
 	"displayName": "Kimi K3 (Moonshot API) - No Bugs Given",
 	"description": "Use Moonshot AI's Kimi models (Kimi K3, K2.6, K2.5) directly inside VS Code Copilot Chat via your own Moonshot API key.",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"publisher": "NoBugsGiven",
 	"license": "MIT",
 	"private": true,
