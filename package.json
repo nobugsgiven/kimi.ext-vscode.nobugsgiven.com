@@ -6,6 +6,10 @@
 	"publisher": "NoBugsGiven",
 	"license": "MIT",
 	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nobugsgiven/kimi.ext-vscode.nobugsgiven.com.git"
+	},
 	"icon": "images/icon.png",
 	"galleryBanner": {
 		"color": "#101418",
